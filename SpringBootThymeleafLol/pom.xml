@@ -54,15 +54,35 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		
+
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<!-- <dependency> -->
+		<!-- <groupId>viettel.com.bi.org.apache.commons.codec</groupId> -->
+		<!-- <artifactId>apache-commons-codec</artifactId> -->
+		<!-- <version>1.4</version> -->
+		<!-- </dependency> -->
 		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<dependency>
-			<groupId>viettel.com.bi.org.apache.commons.codec</groupId>
-			<artifactId>apache-commons-codec</artifactId>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
-		
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.16</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<!-- <dependency> -->
+		<!-- <groupId>mysql</groupId> -->
+		<!-- <artifactId>mysql-connector-java</artifactId> -->
+		<!-- <version>5.1.18</version> -->
+		<!-- </dependency> -->
+
 	</dependencies>
 
 	<build>
