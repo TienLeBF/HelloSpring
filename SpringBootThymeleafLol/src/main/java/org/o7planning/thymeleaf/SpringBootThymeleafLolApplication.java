@@ -17,7 +17,6 @@ public class SpringBootThymeleafLolApplication {
             .getLogger(SpringBootThymeleafLolApplication.class.getSimpleName());
 
     public static void main(String[] args) throws SQLException {
-        log.info("VCLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLll");
         String fileDbSpring = "etc/db_spring_cof.properties";
         Connection_Util util = new Connection_Util(fileDbSpring);
         util.initConnection();

@@ -4,14 +4,14 @@ public class Person {
     private String firstName;
     private String lastName;
     private short age;
-    private boolean sex;
+    private short sex;
     private String email;
     private String address;
 
     public Person() {
     }
 
-    public Person(String firstName, String lastName, short age, boolean sex, String email, String address) {
+    public Person(String firstName, String lastName, short age, short sex, String email, String address) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,11 +45,11 @@ public class Person {
         this.age = age;
     }
 
-    public boolean isSex() {
+    public short isSex() {
         return this.sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(short sex) {
         this.sex = sex;
     }
 
