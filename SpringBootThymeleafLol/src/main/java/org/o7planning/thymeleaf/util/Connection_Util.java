@@ -20,6 +20,7 @@ public class Connection_Util {
 
     public Connection_Util(String config) {
         this.dbConf = config;
+        //        this.initConnection();
     }
 
     public Connection_Util() {
