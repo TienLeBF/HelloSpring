@@ -20,7 +20,7 @@ public class ApplicationException extends Exception {
 
     public String getErrorCode(Exception e) {
         if (e instanceof FileNotFoundException) {
-            return "";
+            return "FileNotFoundException";
         }
         return Constant.BLANK;
     }
