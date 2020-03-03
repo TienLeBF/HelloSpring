@@ -4,7 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.o7planning.thymeleaf.Exception.ApplicationException;
+import org.o7planning.thymeleaf.exception.ApplicationException;
 
 public interface Database {
     public BasicDataSource initConnection(BasicDataSource bds, String configPath)

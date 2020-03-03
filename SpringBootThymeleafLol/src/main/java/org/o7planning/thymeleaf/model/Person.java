@@ -11,7 +11,8 @@ public class Person {
     public Person() {
     }
 
-    public Person(String firstName, String lastName, short age, short sex, String email, String address) {
+    public Person(String firstName, String lastName, short age, short sex, String email,
+            String address) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -67,5 +68,13 @@ public class Person {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+
+        return "First name: " + this.firstName + "\nLast name: " + this.lastName + "\nAge: "
+                + this.age + "\nSex: " + this.sex + "\nEmail: " + this.email + "\nAddress: "
+                + this.address;
     }
 }

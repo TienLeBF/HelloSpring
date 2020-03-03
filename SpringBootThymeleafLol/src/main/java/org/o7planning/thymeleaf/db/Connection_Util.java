@@ -1,17 +1,11 @@
-package org.o7planning.thymeleaf.util;
+package org.o7planning.thymeleaf.db;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
-import org.o7planning.thymeleaf.db.Database;
+import org.o7planning.thymeleaf.util.Constant;
 
 public class Connection_Util {
     private static Logger log = Logger.getLogger(Connection_Util.class.getSimpleName());
@@ -19,12 +13,22 @@ public class Connection_Util {
     private Database database;
     private String dbConf = Constant.EMPTY;
 
-    public Connection_Util(String config, Database database) {
-        this.dbConf = config;
+
+    public Connection_Util(Database database, String configPath) {
+        this.dbConf = configPath;
         this.database = database;
     }
 
-    public Connection_Util() {
+    public void createConnection() throws SQLException, Exception {
+        try {
+            this.bds = this.database.initConnection(this.bds, this.dbConf);
+        } catch (SQLException e) {
+            log.error("SQL exception");
+            throw e;
+        } catch (Exception e) {
+            log.error("Exception");
+            throw e;
+        }
     }
 
     public BasicDataSource getBds() {
@@ -34,7 +38,7 @@ public class Connection_Util {
     public void setBds(BasicDataSource bds) {
         this.bds = bds;
     }
-    
+
     /**
      * Close connection
      *

@@ -11,7 +11,7 @@ import java.util.Properties;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
-import org.o7planning.thymeleaf.Exception.ApplicationException;
+import org.o7planning.thymeleaf.exception.ApplicationException;
 import org.o7planning.thymeleaf.util.Constant;
 
 public class DatabaseMysql implements Database {
