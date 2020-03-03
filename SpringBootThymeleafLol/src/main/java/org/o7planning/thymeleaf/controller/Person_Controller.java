@@ -42,14 +42,4 @@ public class Person_Controller {
             return false;
         }
     }
-
-    public void test() {
-
-        List<Person> persons = this.getListPersons();
-        int count = 0;
-        for (Person person : persons) {
-            LOG.info("\n****************** person " + ++count + " ******************\n");
-            LOG.info(person.toString());
-        }
-    }
 }

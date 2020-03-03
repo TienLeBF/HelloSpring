@@ -18,7 +18,7 @@ public class Person_Logic {
     public List<Person> getListPersons() throws SQLException {
         try {
             // this.validateData(firstName, lastName, age, sex, email, address);
-            return this.dao.getUser(SpringBootThymeleafLolApplication.MYSQL.getConnection());
+            return this.dao.getUser(SpringBootThymeleafLolApplication.MYSQL_SPRING.getConnection());
         } catch (SQLException e) {
             throw e;
         }
@@ -27,7 +27,7 @@ public class Person_Logic {
     public boolean insertListPerson(List<Person> persons)
             throws SQLException {
         try {
-            return this.dao.inserPersons(SpringBootThymeleafLolApplication.MYSQL.getConnection(),
+            return this.dao.inserPersons(SpringBootThymeleafLolApplication.MYSQL_SPRING.getConnection(),
                     persons);
         } catch (SQLException e) {
             throw e;
