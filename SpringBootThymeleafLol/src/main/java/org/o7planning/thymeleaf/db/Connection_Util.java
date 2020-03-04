@@ -23,30 +23,65 @@ public class Connection_Util {
     }
 
     public void createConnection() throws SQLException, Exception {
+        Short status = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
+        Short resultCode = (short) Constant.RESULT_CODE.WAITING.ordinal();
+        Long eventId = null;
         try {
-        	Event event = new Event();
-        	event.setRequestAt(new Date());
-        	event.setResponseAt(new Date());
-        	event.setModifyAt(null);
-        	event.setRequestDay(new Date());
-        	event.setStatus((short)1);
-        	event.setResultCode((short)1);
-        	event.setResultMessage("test");
-        	event.setGroupEvent((short)1);
-        	event.setService("thymeleaf");
-        	event.setHostRequest("localhost test");
-        	event.setHostProcess("localhost test");
-        	event.setClassName(Connection.class.getName());
-        	event.setOtherData(null);
-        	event.setLastRecordId(0);
+            Event eventRequest = new Event();
+
+            Date requestDate = new Date();
+            eventRequest.setRequestAt(requestDate);
+            eventRequest.setResponseAt(null);
+            eventRequest.setModifyAt(requestDate);
+            eventRequest.setRequestDay(requestDate);
+            eventRequest.setStatus(status);
+            eventRequest.setResultCode(resultCode);
+            eventRequest.setResultMessage(null);
+            eventRequest.setGroupEvent((short) 1);
+            eventRequest.setService(null);
+            eventRequest.setHostRequest(null);
+            eventRequest.setHostProcess(null);
+            eventRequest.setClassName(Connection.class.getName());
+            eventRequest.setOtherData(null);
+            eventRequest.setLastRecordId(null);
+
             this.bds = this.database.initConnection(this.bds, this.dbConf);
-            Event_ServiceImpl.insertEvent(event);
+            eventId = Event_ServiceImpl.insertEvent(eventRequest);
+            status = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_CODE.SUCCESS_FULL.ordinal();
         } catch (SQLException e) {
             log.error("SQL exception");
+            resultCode = (short) Constant.RESULT_CODE.ERROR.ordinal();
             throw e;
         } catch (Exception e) {
             log.error("Exception");
+            status = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_CODE.ERROR.ordinal();
             throw e;
+        } finally {
+            status = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            Event eventResponse = new Event();
+            Date reponseDate = new Date();
+            eventResponse.setEvent_id(eventId);
+            eventResponse.setResponseAt(reponseDate);
+            eventResponse.setModifyAt(reponseDate);
+            eventResponse.setRequestDay(null);
+            eventResponse.setStatus(status);
+            eventResponse.setResultCode(resultCode);
+            eventResponse.setResultMessage(null);
+            eventResponse.setGroupEvent((short) 1);
+            eventResponse.setService(null);
+            eventResponse.setHostRequest(null);
+            eventResponse.setHostProcess(null);
+            eventResponse.setClassName(Connection.class.getName());
+            eventResponse.setOtherData(null);
+
+            try {
+                Event_ServiceImpl.updateEvent(eventResponse);
+            } catch (Exception e2) {
+                log.error("Cannot update ");
+                e2.printStackTrace();
+            }
         }
     }
 

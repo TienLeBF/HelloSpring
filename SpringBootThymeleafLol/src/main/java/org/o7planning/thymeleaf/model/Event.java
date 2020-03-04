@@ -3,137 +3,163 @@ package org.o7planning.thymeleaf.model;
 import java.util.Date;
 
 public class Event {
-	private Date requestAt;
-	private Date responseAt;
-	private Date modifyAt;
-	private Date requestDay;
-	private short status;
-	private short resultCode;
-	private String resultMessage;
-	private short groupEvent;
-	private String service;
-	private String hostRequest;
-	private String hostProcess;
-	private String className;
-	private String otherData;
-	private long lastRecordId;
+    private Long event_id;
+    private Date requestAt;
+    private Date responseAt;
+    private Date modifyAt;
+    private Date requestDay;
+    private Short status;
+    private Short resultCode;
+    private String resultMessage;
+    private Short groupEvent;
+    private String service;
+    private String hostRequest;
+    private String hostProcess;
+    private String className;
+    private String otherData;
+    private Long lastRecordId;
 
-	public Event() {
-	}
+    public Event() {
+    }
 
-	
-	public Date getRequestAt() {
-		return requestAt;
-	}
+    public Event(Date requestAt, Date responseAt, Date modifyAt, Date requestDay,
+            Short status, Short resultCode, String resultMessage, Short groupEvent, String service,
+            String hostRequest, String hostProcess, String className, String otherData,
+            Long lastRecordId) {
+        this.requestAt = requestAt;
+        this.responseAt = responseAt;
+        this.modifyAt = modifyAt;
+        this.requestDay = requestDay;
+        this.status = status;
+        this.resultCode = resultCode;
+        this.resultMessage = resultMessage;
+        this.groupEvent = groupEvent;
+        this.service = service;
+        this.hostRequest = hostRequest;
+        this.hostProcess = hostProcess;
+        this.className = className;
+        this.otherData = otherData;
+        this.lastRecordId = lastRecordId;
+    }
 
+    public Long getEvent_id() {
+        return this.event_id;
+    }
 
-	public void setRequestAt(Date requestAt) {
-		this.requestAt = requestAt;
-	}
+    public void setEvent_id(Long event_id) {
+        this.event_id = event_id;
+    }
 
+    public Date getRequestAt() {
+        return this.requestAt;
+    }
 
-	public Date getResponseAt() {
-		return responseAt;
-	}
+    public void setRequestAt(Date requestAt) {
+        this.requestAt = requestAt;
+    }
 
-	public void setResponseAt(Date responseAt) {
-		this.responseAt = responseAt;
-	}
+    public Date getResponseAt() {
+        return this.responseAt;
+    }
 
-	public Date getModifyAt() {
-		return modifyAt;
-	}
+    public void setResponseAt(Date responseAt) {
+        this.responseAt = responseAt;
+    }
 
-	public void setModifyAt(Date modifyAt) {
-		this.modifyAt = modifyAt;
-	}
+    public Date getModifyAt() {
+        return this.modifyAt;
+    }
 
-	public Date getRequestDay() {
-		return requestDay;
-	}
+    public void setModifyAt(Date modifyAt) {
+        this.modifyAt = modifyAt;
+    }
 
-	public void setRequestDay(Date requestDay) {
-		this.requestDay = requestDay;
-	}
+    public Date getRequestDay() {
+        return this.requestDay;
+    }
 
-	public short getStatus() {
-		return status;
-	}
+    public void setRequestDay(Date requestDay) {
+        this.requestDay = requestDay;
+    }
 
-	public void setStatus(short status) {
-		this.status = status;
-	}
+    public Short getStatus() {
+        return this.status;
+    }
 
-	public short getResultCode() {
-		return resultCode;
-	}
+    public void setStatus(Short status) {
+        this.status = status;
+    }
 
-	public void setResultCode(short resultCode) {
-		this.resultCode = resultCode;
-	}
+    public Short getResultCode() {
+        return this.resultCode;
+    }
 
-	public String getResultMessage() {
-		return resultMessage;
-	}
+    public void setResultCode(Short resultCode) {
+        this.resultCode = resultCode;
+    }
 
-	public void setResultMessage(String resultMessage) {
-		this.resultMessage = resultMessage;
-	}
+    public String getResultMessage() {
+        return this.resultMessage;
+    }
 
-	public short getGroupEvent() {
-		return groupEvent;
-	}
+    public void setResultMessage(String resultMessage) {
+        this.resultMessage = resultMessage;
+    }
 
-	public void setGroupEvent(short groupEvent) {
-		this.groupEvent = groupEvent;
-	}
+    public Short getGroupEvent() {
+        return this.groupEvent;
+    }
 
-	public String getService() {
-		return service;
-	}
+    public void setGroupEvent(Short groupEvent) {
+        this.groupEvent = groupEvent;
+    }
 
-	public void setService(String service) {
-		this.service = service;
-	}
+    public String getService() {
+        return this.service;
+    }
 
-	public String getHostRequest() {
-		return hostRequest;
-	}
+    public void setService(String service) {
+        this.service = service;
+    }
 
-	public void setHostRequest(String hostRequest) {
-		this.hostRequest = hostRequest;
-	}
+    public String getHostRequest() {
+        return this.hostRequest;
+    }
 
-	public String getHostProcess() {
-		return hostProcess;
-	}
+    public void setHostRequest(String hostRequest) {
+        this.hostRequest = hostRequest;
+    }
 
-	public void setHostProcess(String hostProcess) {
-		this.hostProcess = hostProcess;
-	}
+    public String getHostProcess() {
+        return this.hostProcess;
+    }
 
-	public String getClassName() {
-		return className;
-	}
+    public void setHostProcess(String hostProcess) {
+        this.hostProcess = hostProcess;
+    }
 
-	public void setClassName(String className) {
-		this.className = className;
-	}
+    public String getClassName() {
+        return this.className;
+    }
 
-	public String getOtherData() {
-		return otherData;
-	}
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
-	public void setOtherData(String otherData) {
-		this.otherData = otherData;
-	}
+    public String getOtherData() {
+        return this.otherData;
+    }
 
-	public long getLastRecordId() {
-		return lastRecordId;
-	}
+    public void setOtherData(String otherData) {
+        this.otherData = otherData;
+    }
 
-	public void setLastRecordId(long lastRecordId) {
-		this.lastRecordId = lastRecordId;
-	}
+    public Long getLastRecordId() {
+        return this.lastRecordId;
+    }
+
+    public void setLastRecordId(Long lastRecordId) {
+        this.lastRecordId = lastRecordId;
+    }
 
 }

@@ -3,7 +3,6 @@ package org.o7planning.thymeleaf.logic;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.o7planning.thymeleaf.SpringBootThymeleafLolApplication;
 import org.o7planning.thymeleaf.dao.Person_Dao;
 import org.o7planning.thymeleaf.dao.impl.Person_DaoImpl;
 import org.o7planning.thymeleaf.model.Person;
@@ -18,7 +17,7 @@ public class Person_Logic {
     public List<Person> getListPersons() throws SQLException {
         try {
             // this.validateData(firstName, lastName, age, sex, email, address);
-            return this.dao.getUser(SpringBootThymeleafLolApplication.MYSQL_SPRING.getConnection());
+            return this.dao.getUser();
         } catch (SQLException e) {
             throw e;
         }
@@ -27,8 +26,7 @@ public class Person_Logic {
     public boolean insertListPerson(List<Person> persons)
             throws SQLException {
         try {
-            return this.dao.inserPersons(SpringBootThymeleafLolApplication.MYSQL_SPRING.getConnection(),
-                    persons);
+            return this.dao.inserPersons(persons);
         } catch (SQLException e) {
             throw e;
         } finally {

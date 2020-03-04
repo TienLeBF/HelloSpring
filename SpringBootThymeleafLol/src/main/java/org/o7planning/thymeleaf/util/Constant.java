@@ -21,4 +21,16 @@ public class Constant {
     public static final int DB_VALIDATION_QUERY_TIMEOUT = 15;
     public static final int DB_TIME_BETWEEN_EVIECTION_RÚN_M = 60000;
 
+    public static enum STATUS_EVENT {
+        STOP, RUNNING;
+    }
+
+    public static enum RESULT_CODE {
+        WAITING, SUCCESS_FULL, ERROR;
+    }
+
+    public static void main(String[] args) {
+        System.out.println((short) Constant.STATUS_EVENT.STOP.ordinal());
+        System.out.println((short) Constant.STATUS_EVENT.RUNNING.ordinal());
+    }
 }
