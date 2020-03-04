@@ -11,7 +11,7 @@ import org.o7planning.thymeleaf.service.impl.Event_ServiceImpl;
 import org.o7planning.thymeleaf.util.Constant;
 
 public class Connection_Util {
-    private static Logger log = Logger.getLogger(Connection_Util.class.getSimpleName());
+    private static final Logger LOG = Logger.getLogger(Connection_Util.class.getSimpleName());
     private BasicDataSource bds;
     private Database database;
     private String dbConf = Constant.EMPTY;
@@ -50,11 +50,11 @@ public class Connection_Util {
             status = (short) Constant.STATUS_EVENT.STOP.ordinal();
             resultCode = (short) Constant.RESULT_CODE.SUCCESS_FULL.ordinal();
         } catch (SQLException e) {
-            log.error("SQL exception");
+            LOG.error("SQL exception");
             resultCode = (short) Constant.RESULT_CODE.ERROR.ordinal();
             throw e;
         } catch (Exception e) {
-            log.error("Exception");
+            LOG.error("Exception");
             status = (short) Constant.STATUS_EVENT.STOP.ordinal();
             resultCode = (short) Constant.RESULT_CODE.ERROR.ordinal();
             throw e;
@@ -79,7 +79,7 @@ public class Connection_Util {
             try {
                 Event_ServiceImpl.updateEvent(eventResponse);
             } catch (Exception e2) {
-                log.error("Cannot update ");
+                LOG.error("Cannot update ");
                 e2.printStackTrace();
             }
         }
@@ -101,14 +101,14 @@ public class Connection_Util {
     public void closeDbcpPool() throws SQLException {
         try {
             if (null == this.bds) {
-                log.info("Khong co connection nao de dong");
+                LOG.info("Khong co connection nao de dong");
             }
             // else
             this.bds.close();
             this.bds = null;
 
         } catch (SQLException e) {
-            log.error("Da co loi xay ra - khong the dong connection");
+            LOG.error("Da co loi xay ra - khong the dong connection");
             throw e;
         }
     }
@@ -123,7 +123,7 @@ public class Connection_Util {
         try {
             return this.bds.getConnection();
         } catch (SQLException e) {
-            log.error("Khong the tra ve ket noi db - error");
+            LOG.error("Khong the tra ve ket noi db - error");
             throw e;
         }
     }
