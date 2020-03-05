@@ -25,8 +25,8 @@ public class Constant {
         STOP, RUNNING;
     }
 
-    public static enum RESULT_CODE {
-        WAITING, SUCCESS_FULL, ERROR;
+    public static enum RESULT_EVENT {
+        WAITING, SUCCESS_FULL, ERROR;   
     }
 
     public static void main(String[] args) {

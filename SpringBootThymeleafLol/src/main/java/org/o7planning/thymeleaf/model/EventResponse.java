@@ -2,60 +2,45 @@ package org.o7planning.thymeleaf.model;
 
 import java.util.Date;
 
-public class Event {
+public class EventResponse {
     private Long eventId;
-    private Date requestAt;
     private Date responseAt;
     private Date modifyAt;
-    private Date requestDay;
     private Short status;
     private Short resultCode;
     private String resultMessage;
     private Short groupEvent;
     private String service;
-    private String hostRequest;
-    private String hostProcess;
+    private String hostResponse;
     private String className;
     private String otherData;
-    private Long lastRecordId;
 
-    public Event() {
+    public EventResponse() {
     }
 
-    public Event(Date requestAt, Date responseAt, Date modifyAt, Date requestDay,
-            Short status, Short resultCode, String resultMessage, Short groupEvent, String service,
-            String hostRequest, String hostProcess, String className, String otherData,
-            Long lastRecordId) {
-        this.requestAt = requestAt;
+    public EventResponse(Long eventId, Date responseAt, Date modifyAt, Short status,
+            Short resultCode,
+            String resultMessage, Short groupEvent, String service, String hostResponse,
+            String className, String otherData) {
+        this.eventId = eventId;
         this.responseAt = responseAt;
         this.modifyAt = modifyAt;
-        this.requestDay = requestDay;
         this.status = status;
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
         this.groupEvent = groupEvent;
         this.service = service;
-        this.hostRequest = hostRequest;
-        this.hostProcess = hostProcess;
+        this.hostResponse = hostResponse;
         this.className = className;
         this.otherData = otherData;
-        this.lastRecordId = lastRecordId;
     }
 
-    public Long getEvent_id() {
+    public Long getEventId() {
         return this.eventId;
     }
 
-    public void setEvent_id(Long event_id) {
+    public void setEventId(Long event_id) {
         this.eventId = event_id;
-    }
-
-    public Date getRequestAt() {
-        return this.requestAt;
-    }
-
-    public void setRequestAt(Date requestAt) {
-        this.requestAt = requestAt;
     }
 
     public Date getResponseAt() {
@@ -72,14 +57,6 @@ public class Event {
 
     public void setModifyAt(Date modifyAt) {
         this.modifyAt = modifyAt;
-    }
-
-    public Date getRequestDay() {
-        return this.requestDay;
-    }
-
-    public void setRequestDay(Date requestDay) {
-        this.requestDay = requestDay;
     }
 
     public Short getStatus() {
@@ -122,20 +99,12 @@ public class Event {
         this.service = service;
     }
 
-    public String getHostRequest() {
-        return this.hostRequest;
+    public String getHostResponse() {
+        return this.hostResponse;
     }
 
-    public void setHostRequest(String hostRequest) {
-        this.hostRequest = hostRequest;
-    }
-
-    public String getHostProcess() {
-        return this.hostProcess;
-    }
-
-    public void setHostProcess(String hostProcess) {
-        this.hostProcess = hostProcess;
+    public void setHostResponse(String hostProcess) {
+        this.hostResponse = hostProcess;
     }
 
     public String getClassName() {
@@ -152,14 +121,6 @@ public class Event {
 
     public void setOtherData(String otherData) {
         this.otherData = otherData;
-    }
-
-    public Long getLastRecordId() {
-        return this.lastRecordId;
-    }
-
-    public void setLastRecordId(Long lastRecordId) {
-        this.lastRecordId = lastRecordId;
     }
 
 }
