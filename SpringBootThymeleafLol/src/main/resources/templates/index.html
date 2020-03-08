@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Hello Thymeleaf</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+	<H1>welcome</H1>
+	<H2 th:utext="${message}">..!..</H2>
+	<!--
+			in thymeleaf the equivalent of JSP 's ${pageContext.request.contextPath}/edit.html
+			would be @{/edit.html} 
+		-->
+	<a th:href="@{/personList}">Person List</a>
+</body>
+<html>

@@ -26,4 +26,12 @@ public class Event_Logic {
         }
     }
 
+	public static void udpateEventError()  throws SQLException {
+        try {
+            Event_DaoImpl.udpateEventError();
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+
 }

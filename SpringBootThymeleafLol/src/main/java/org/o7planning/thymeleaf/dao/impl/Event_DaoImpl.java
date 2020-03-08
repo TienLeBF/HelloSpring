@@ -5,11 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.o7planning.thymeleaf.SpringBootThymeleafLolApplication;
 import org.o7planning.thymeleaf.model.EventRequest;
 import org.o7planning.thymeleaf.model.EventResponse;
+import org.o7planning.thymeleaf.util.Constant;
 
 public class Event_DaoImpl {
     private static final Logger LOG = Logger.getLogger(Event_DaoImpl.class.getSimpleName());
@@ -120,5 +122,35 @@ public class Event_DaoImpl {
                 connection.close();
             }
         }
+    }
+    
+    public static void udpateEventError() throws SQLException {
+    	PreparedStatement preparedStatement = null;
+    	Connection connection = null;
+    	try {
+    		Date modifyAt = new Date();
+    		int statusCode = Constant.STATUS_EVENT.STOP.ordinal();
+    		int resultCode = Constant.RESULT_EVENT.ERROR.ordinal();
+    		String resultMessate = "Update events cannot complete. At start service";
+			String query = "UPDATE \n"
+					+ "\tmonitor.events \n"
+					+ "\tSET modify_at = ?,\n"
+					+ "\tstatus_code=?,\n"
+					+ "\tresult_code=?,\n"
+					+ "\tresult_message=?\n"
+					+ "WHERE \n"
+					+ "\tstatus_code = 1 \n"
+					+ "\tAND result_code = 0";
+			connection = SpringBootThymeleafLolApplication.MYSQL_MONITOR.getConnection();
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setTimestamp(1, new Timestamp(modifyAt.getTime()));
+			preparedStatement.setShort(2, (short) statusCode);
+			preparedStatement.setShort(3, (short) resultCode);
+			preparedStatement.setString(4, resultMessate);
+
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw e;
+		}
     }
 }

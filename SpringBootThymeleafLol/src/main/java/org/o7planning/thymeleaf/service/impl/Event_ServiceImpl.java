@@ -26,4 +26,12 @@ public class Event_ServiceImpl {
             throw e;
         }
     }
+    
+    public static void udpateEventError() throws SQLException {
+        try {
+            Event_Logic.udpateEventError();
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
 }
