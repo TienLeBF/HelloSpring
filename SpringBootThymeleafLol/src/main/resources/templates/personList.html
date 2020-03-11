@@ -10,13 +10,17 @@
 
 <body>
     <H1>List Persons</H1>
-    <a href="addPerson">Add Person</a>
+    <a href="personAdd">Add Person</a>
     <div>
         <table border="1">
             <tr>
                 <th>First name</th>
                 <th>Last name</th>
-
+                <th>Age</th>
+                <th>Sex</th>
+                <th>Email</th>
+                <th>Address</th>
+                
             </tr>
             <tr th:each="person:${persons}">
                 <td th:utext=${person.firstName}>...</td>

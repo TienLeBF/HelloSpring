@@ -46,7 +46,7 @@ public class Person {
         this.age = age;
     }
 
-    public short isSex() {
+    public short getSex() {
         return this.sex;
     }
 

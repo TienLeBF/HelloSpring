@@ -11,12 +11,12 @@ public interface Person_Service {
      * @return
      * @throws SQLException
      */
-    public List<Person> getListPersons() throws SQLException;
+    public List<Person> getPersonsList() throws SQLException;
 
     /**
      * @param persons
      * @return
      * @throws SQLException
      */
-    public boolean insertListPersons(List<Person> persons) throws SQLException;
+    public boolean insertPersons(List<Person> persons) throws SQLException;
 }

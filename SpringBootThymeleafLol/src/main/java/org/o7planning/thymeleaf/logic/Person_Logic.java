@@ -14,19 +14,19 @@ public class Person_Logic {
         this.dao = new Person_DaoImpl();
     }
 
-    public List<Person> getListPersons() throws SQLException {
+    public List<Person> getPersons() throws SQLException {
         try {
             // this.validateData(firstName, lastName, age, sex, email, address);
-            return this.dao.getUser();
+            return this.dao.getPersons();
         } catch (SQLException e) {
             throw e;
         }
     }
 
-    public boolean insertListPerson(List<Person> persons)
+    public boolean insertPersons(List<Person> persons)
             throws SQLException {
         try {
-            return this.dao.inserPersons(persons);
+            return this.dao.insertPersons(persons);
         } catch (SQLException e) {
             throw e;
         } finally {

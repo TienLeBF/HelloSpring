@@ -15,18 +15,18 @@ public class Person_ServiceImpl implements Person_Service {
     }
 
     @Override
-    public List<Person> getListPersons() throws SQLException {
+    public List<Person> getPersonsList() throws SQLException {
         try {
-            return this.logic.getListPersons();
+            return this.logic.getPersons();
         } catch (SQLException e) {
             throw e;
         }
     }
 
     @Override
-    public boolean insertListPersons(List<Person> persons) throws SQLException {
+    public boolean insertPersons(List<Person> persons) throws SQLException {
         try {
-            return this.logic.insertListPerson(persons);
+            return this.logic.insertPersons(persons);
         } catch (SQLException e) {
             throw e;
         }

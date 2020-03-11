@@ -27,19 +27,21 @@ public class Event_DaoImpl {
             String query = "insert \ninto monitor.events \n"
                     + "( \n"
                     + "request_at, "
+                    + "event_code, " + "request_message, "
                     + "status_code, "
                     + "result_code, "
                     + "group_event, "
                     + "service, "
                     + "host_request, "
                     + "class_name, "
+                    + "method_name, "
                     + "other_data";
             if (null != eventRequest.getLastRecordId()) {
                 query += ", "
                         + "last_record_id \n";
             }
             query += ") \n"
-                    + "values (?, ?, ?, ?, ?, ?, ?, ?";
+                    + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
             if (null != eventRequest.getLastRecordId()) {
                 query += ", ?";
             }
@@ -50,15 +52,18 @@ public class Event_DaoImpl {
 
             prepare.setTimestamp(1, null == eventRequest.getRequestAt() ? null
                     : new Timestamp(eventRequest.getRequestAt().getTime()));
-            prepare.setShort(2, eventRequest.getStatus());
-            prepare.setShort(3, eventRequest.getResultCode());
-            prepare.setShort(4, eventRequest.getGroupEvent());
-            prepare.setString(5, eventRequest.getService());
-            prepare.setString(6, eventRequest.getHostRequest());
-            prepare.setString(7, eventRequest.getClassName());
-            prepare.setString(8, eventRequest.getOtherData());
+            prepare.setString(2, eventRequest.getEventCode());
+            prepare.setString(3, eventRequest.getRequestMessage());
+            prepare.setShort(4, eventRequest.getStatus());
+            prepare.setShort(5, eventRequest.getResultCode());
+            prepare.setShort(6, eventRequest.getGroupEvent());
+            prepare.setString(7, eventRequest.getService());
+            prepare.setString(8, eventRequest.getHostRequest());
+            prepare.setString(9, eventRequest.getClassName());
+            prepare.setString(10, eventRequest.getMethodName());
+            prepare.setString(11, eventRequest.getOtherData());
             if (null != eventRequest.getLastRecordId()) {
-                prepare.setLong(9, eventRequest.getLastRecordId());
+                prepare.setLong(12, eventRequest.getLastRecordId());
             }
 
             prepare.executeUpdate();
@@ -123,34 +128,34 @@ public class Event_DaoImpl {
             }
         }
     }
-    
-    public static void udpateEventError() throws SQLException {
-    	PreparedStatement preparedStatement = null;
-    	Connection connection = null;
-    	try {
-    		Date modifyAt = new Date();
-    		int statusCode = Constant.STATUS_EVENT.STOP.ordinal();
-    		int resultCode = Constant.RESULT_EVENT.ERROR.ordinal();
-    		String resultMessate = "Update events cannot complete. At start service";
-			String query = "UPDATE \n"
-					+ "\tmonitor.events \n"
-					+ "\tSET modify_at = ?,\n"
-					+ "\tstatus_code=?,\n"
-					+ "\tresult_code=?,\n"
-					+ "\tresult_message=?\n"
-					+ "WHERE \n"
-					+ "\tstatus_code = 1 \n"
-					+ "\tAND result_code = 0";
-			connection = SpringBootThymeleafLolApplication.MYSQL_MONITOR.getConnection();
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setTimestamp(1, new Timestamp(modifyAt.getTime()));
-			preparedStatement.setShort(2, (short) statusCode);
-			preparedStatement.setShort(3, (short) resultCode);
-			preparedStatement.setString(4, resultMessate);
 
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			throw e;
-		}
+    public static void udpateEventError() throws SQLException {
+        PreparedStatement preparedStatement = null;
+        Connection connection = null;
+        try {
+            Date modifyAt = new Date();
+            int statusCode = Constant.STATUS_EVENT.STOP.ordinal();
+            int resultCode = Constant.RESULT_EVENT.ERROR.ordinal();
+            String resultMessate = "Update events cannot complete. At start service";
+            String query = "UPDATE \n"
+                    + "\tmonitor.events \n"
+                    + "\tSET modify_at = ?,\n"
+                    + "\tstatus_code=?,\n"
+                    + "\tresult_code=?,\n"
+                    + "\tresult_message=?\n"
+                    + "WHERE \n"
+                    + "\tstatus_code = 1 \n"
+                    + "\tAND result_code = 0";
+            connection = SpringBootThymeleafLolApplication.MYSQL_MONITOR.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setTimestamp(1, new Timestamp(modifyAt.getTime()));
+            preparedStatement.setShort(2, (short) statusCode);
+            preparedStatement.setShort(3, (short) resultCode);
+            preparedStatement.setString(4, resultMessate);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        }
     }
 }

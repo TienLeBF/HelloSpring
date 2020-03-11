@@ -14,11 +14,11 @@ public interface Person_Dao {
      * @return
      * @throws SQLException
      */
-    public List<Person> getUser() throws SQLException;
+    public List<Person> getPersons() throws SQLException;
 
     /**
      * @return
      * @throws SQLException
      */
-    public boolean inserPersons(List<Person> persons) throws SQLException;
+    public boolean insertPersons(List<Person> persons) throws SQLException;
 }

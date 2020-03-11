@@ -5,6 +5,8 @@ import java.util.Date;
 public class EventRequest {
     private Date requestAt;
     private Date modifyAt;
+    private String eventCode;
+    private String requestMessage;
     private Short status;
     private Short resultCode;
     private String resultMessage;
@@ -12,17 +14,21 @@ public class EventRequest {
     private String service;
     private String hostRequest;
     private String className;
+    private String methodName;
     private String otherData;
     private Long lastRecordId;
 
     public EventRequest() {
     }
 
-    public EventRequest(Date requestAt, Date modifyAt, Short status, Short resultCode,
+    public EventRequest(Date requestAt, Date modifyAt, String eventCode, String requestMessage,
+            Short status, Short resultCode,
             String resultMessage, Short groupEvent, String service, String hostRequest,
-            String className, String otherData) {
+            String className, String methodName, String otherData) {
         this.requestAt = requestAt;
         this.modifyAt = modifyAt;
+        this.eventCode = eventCode;
+        this.requestMessage = requestMessage;
         this.status = status;
         this.resultCode = resultCode;
         this.resultMessage = resultMessage;
@@ -30,6 +36,7 @@ public class EventRequest {
         this.service = service;
         this.hostRequest = hostRequest;
         this.className = className;
+        this.methodName = methodName;
         this.otherData = otherData;
     }
 
@@ -119,6 +126,30 @@ public class EventRequest {
 
     public void setLastRecordId(Long lastRecordId) {
         this.lastRecordId = lastRecordId;
+    }
+
+    public String getEventCode() {
+        return this.eventCode;
+    }
+
+    public void setEventCode(String eventCode) {
+        this.eventCode = eventCode;
+    }
+
+    public String getRequestMessage() {
+        return this.requestMessage;
+    }
+
+    public void setRequestMessage(String requestMessage) {
+        this.requestMessage = requestMessage;
+    }
+
+    public String getMethodName() {
+        return this.methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 
 }

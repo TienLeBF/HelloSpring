@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.o7planning.thymeleaf.db.Connection_Util;
 import org.o7planning.thymeleaf.form.PersonForm;
 import org.o7planning.thymeleaf.model.EventRequest;
 import org.o7planning.thymeleaf.model.EventResponse;
@@ -24,148 +23,296 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class Person_Controller {
-	private static final Logger LOG = Logger.getLogger(Person_Controller.class.getSimpleName());
-	private Person_Service service;
-	private List<Person> persons;
+    private static final Logger LOG = Logger.getLogger(Person_Controller.class.getSimpleName());
+    private Person_Service service;
+    private List<Person> persons;
 
-	@Value("${welcome.message}")
-	private String message;
-	@Value("${error.message")
-	private String errorMessage;
+    @Value("${welcome.message}")
+    private String message;
+    @Value("${error.message")
+    private String errorMessage;
 
-	public Person_Controller() {
-		LOG.info("create a new Person_Controller");
-		this.service = new Person_ServiceImpl();
-		this.persons = new ArrayList<Person>();
-	}
+    public Person_Controller() {
+        LOG.info("create a new Person_Controller");
+        this.service = new Person_ServiceImpl();
+        this.persons = new ArrayList<Person>();
+    }
 
-	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
-	public String index(Model model) {
-		model.addAttribute("message", this.message);
+    @RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+    public String index(Model model) {
+        LOG.info("Person_Controller -> index get -> is called");
+        Short statusCode = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
+        Short resultCode = (short) Constant.RESULT_EVENT.WAITING.ordinal();
+        Long eventId = null;
+        try {
+            Date requestDate = new Date();
+            String eventCode = "index_page";
+            EventRequest eventRequest = new EventRequest(requestDate, requestDate, eventCode, null,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), "index(Model)", null);
+            eventId = Event_ServiceImpl.insertEvent(eventRequest);
 
-		return "index";
-	}
+            model.addAttribute("message", this.message);
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
 
-	@RequestMapping(value = { "/personList" }, method = RequestMethod.GET)
-	public String listPerson(Model model) {
-		this.persons = this.getListPersons();
-		model.addAttribute("persons", this.persons);
+        } catch (Exception e) {
+            LOG.error("Person_Controller -> index -> ERROR index page");
+            e.printStackTrace();
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.ERROR.ordinal();
+        } finally {
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            Date reponseDate = new Date();
+            EventResponse eventResponse = new EventResponse(eventId, reponseDate, reponseDate,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), null);
+            try {
+                Event_ServiceImpl.updateEvent(eventResponse);
+            } catch (Exception e2) {
+                LOG.error("Cannot update event_id = " + eventId);
+                e2.printStackTrace();
+            }
+            LOG.info("Person_Controller -> index -> is called -> ended");
+        }
 
-		return "personList";
-	}
+        return "index";
+    }
 
-	@RequestMapping(value = { "/personAdd" }, method = RequestMethod.GET)
-	public String personAdd(Model model) {
-		PersonForm form = new PersonForm();
-		model.addAttribute("personForm", form);
+    @RequestMapping(value = { "/personList" }, method = RequestMethod.GET)
+    public String listPerson(Model model) {
+        LOG.info("Person_Controller -> listPerson GET -> is called");
+        Short statusCode = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
+        Short resultCode = (short) Constant.RESULT_EVENT.WAITING.ordinal();
+        Long eventId = null;
+        try {
+            Date requestDate = new Date();
+            String eventCode = "person_list_page";
+            EventRequest eventRequest = new EventRequest(requestDate, requestDate, eventCode, null,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), "listPerson(Model)",
+                    null);
+            eventId = Event_ServiceImpl.insertEvent(eventRequest);
 
-		return "personAdd";
-	}
+            this.persons = this.getPersonsList();
+            model.addAttribute("persons", this.persons);
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
 
-	@RequestMapping(value = {}, method = RequestMethod.POST)
-	public String addPerson(Model model, @ModelAttribute("personForm") PersonForm personForm) {
-		try {
-			String firstName = personForm.getFirstName();
-			String lastName = personForm.getLastName();
-			short age = personForm.getAge();
-			short sex = personForm.getSex();
-			String email = personForm.getEmail();
-			String address = personForm.getAddress();
+        } catch (Exception e) {
+            LOG.error("Person_Controller -> listPerson -> ERROR personList page");
+            e.printStackTrace();
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.ERROR.ordinal();
+        } finally {
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            Date reponseDate = new Date();
+            EventResponse eventResponse = new EventResponse(eventId, reponseDate, reponseDate,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), null);
+            try {
+                Event_ServiceImpl.updateEvent(eventResponse);
+            } catch (Exception e2) {
+                LOG.error("Cannot update event_id = " + eventId);
+                e2.printStackTrace();
+            }
+            LOG.info("Person_Controller -> personList -> is called -> ended");
+        }
 
-			if (null != firstName && !firstName.isEmpty() && null != lastName && !lastName.isEmpty()) {
-				Person person = new Person(firstName, lastName, age, sex, email, address);
-				List<Person> personList = new ArrayList<Person>();
-				personList.add(person);
-				this.service.insertListPersons(this.persons);
+        return "personList";
+    }
 
-				return "personList";
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    @RequestMapping(value = { "/personAdd" }, method = RequestMethod.GET)
+    public String personAdd(Model model) {
+        LOG.info("Person_Controller -> personAdd GET -> is called");
+        Short statusCode = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
+        Short resultCode = (short) Constant.RESULT_EVENT.WAITING.ordinal();
+        Long eventId = null;
+        try {
+            Date requestDate = new Date();
+            String eventCode = "person_add_page";
+            EventRequest eventRequest = new EventRequest(requestDate, requestDate, eventCode, null,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), "personAdd(Model)",
+                    null);
+            eventId = Event_ServiceImpl.insertEvent(eventRequest);
 
-		return "personAdd";
-	}
+            PersonForm form = new PersonForm();
+            model.addAttribute("personForm", form);
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
 
-	/**
-	 * get list persons
-	 *
-	 * @return list persons
-	 */
-	public List<Person> getListPersons() {
-		List<Person> persons = null;
-		Short statusCode = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
-		Short resultCode = (short) Constant.RESULT_EVENT.WAITING.ordinal();
-		Long eventId = null;
-		try {
-			LOG.info("Person_Controller -> getListPersons -> is called");
-			Date requestDate = new Date();
-			EventRequest eventRequest = new EventRequest(requestDate, requestDate, statusCode, resultCode, null,
-					(short) 1, null, null, Connection_Util.class.getName(), null);
-			eventId = Event_ServiceImpl.insertEvent(eventRequest);
+        } catch (Exception e) {
+            LOG.error("Person_Controller -> listPerson -> ERROR personList page");
+            e.printStackTrace();
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.ERROR.ordinal();
+        } finally {
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            Date reponseDate = new Date();
+            EventResponse eventResponse = new EventResponse(eventId, reponseDate, reponseDate,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), null);
+            try {
+                Event_ServiceImpl.updateEvent(eventResponse);
+            } catch (Exception e2) {
+                LOG.error("Cannot update event_id = " + eventId);
+                e2.printStackTrace();
+            }
+            LOG.info("Person_Controller -> personAdd -> is called -> ended");
+        }
 
-			persons = this.service.getListPersons();
-			statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
-			resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
-		} catch (SQLException e) {
-			statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
-			resultCode = (short) Constant.RESULT_EVENT.ERROR.ordinal();
-			LOG.error("Person_Controller -> getListPersons -> SQLException");
-			e.printStackTrace();
-		} finally {
-			statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
-			Date reponseDate = new Date();
-			EventResponse eventResponse = new EventResponse(eventId, reponseDate, reponseDate, statusCode, resultCode,
-					null, (short) 1, null, null, Connection_Util.class.getName(), null);
-			try {
-				Event_ServiceImpl.updateEvent(eventResponse);
-			} catch (Exception e2) {
-				LOG.error("Cannot update event_id = " + eventId);
-				e2.printStackTrace();
-			}
-		}
+        return "personAdd";
+    }
 
-		return persons;
-	}
+    @RequestMapping(value = { "/addPerson" }, method = RequestMethod.POST)
+    public String addPerson(Model model, @ModelAttribute("personForm") PersonForm personForm) {
+        LOG.info("Person_Controller -> personAdd POST -> is called");
+        Short statusCode = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
+        Short resultCode = (short) Constant.RESULT_EVENT.WAITING.ordinal();
+        Long eventId = null;
+        try {
+            Date requestDate = new Date();
+            String eventCode = "add_person_action";
+            EventRequest eventRequest = new EventRequest(requestDate, requestDate, eventCode, null,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), "addPerson(Model, PersonForm)",
+                    null);
+            eventId = Event_ServiceImpl.insertEvent(eventRequest);
 
-	/**
-	 * insert list persons
-	 *
-	 * @return true in case of successfull otherwise false
-	 */
-	public boolean insertPersons(List<Person> persons) {
-		boolean result = false;
-		Short statusCode = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
-		Short resultCode = (short) Constant.RESULT_EVENT.WAITING.ordinal();
-		Long eventId = null;
-		try {
-			LOG.info("Person_Controller -> insertPersons -> is called");
-			Date requestDate = new Date();
-			EventRequest eventRequest = new EventRequest(requestDate, requestDate, statusCode, resultCode, null,
-					(short) 1, null, null, Connection_Util.class.getName(), null);
+            String firstName = personForm.getFirstName();
+            String lastName = personForm.getLastName();
+            short age = personForm.getAge();
+            short sex = personForm.getSex();
+            String email = personForm.getEmail();
+            String address = personForm.getAddress();
 
-			result = this.service.insertListPersons(persons);
-			eventId = Event_ServiceImpl.insertEvent(eventRequest);
-			statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
-			resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
-		} catch (SQLException e) {
-			statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
-			resultCode = (short) Constant.RESULT_EVENT.ERROR.ordinal();
-			LOG.error("Person_Controller -> insertPersons ->  SQLException");
-			e.printStackTrace();
-		} finally {
-			statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
-			Date reponseDate = new Date();
-			EventResponse eventResponse = new EventResponse(eventId, reponseDate, reponseDate, statusCode, resultCode,
-					null, (short) 1, null, null, Connection_Util.class.getName(), null);
-			try {
-				Event_ServiceImpl.updateEvent(eventResponse);
-			} catch (Exception e2) {
-				LOG.error("Cannot update event_id = " + eventId);
-				e2.printStackTrace();
-			}
-		}
+            if (null != firstName && !firstName.isEmpty() && null != lastName && !lastName.isEmpty()) {
+                Person person = new Person(firstName, lastName, age, sex, email, address);
+                List<Person> personList = new ArrayList<Person>();
+                personList.add(person);
+                this.service.insertPersons(personList);
 
-		return result;
-	}
+                statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+                resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
+
+                LOG.info("Person_Controller -> addPerson -> successfull inserted person");
+                return "redirect:/personList";
+            } else {
+                LOG.info("Person_Controller -> addPerson -> Cannot insert person");
+            }
+
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
+
+        } catch (SQLException e) {
+            LOG.error("Person_Controller -> addPerson -> ERROR personList page");
+            e.printStackTrace();
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.ERROR.ordinal();
+        } finally {
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            Date reponseDate = new Date();
+            EventResponse eventResponse = new EventResponse(eventId, reponseDate, reponseDate,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), null);
+            try {
+                Event_ServiceImpl.updateEvent(eventResponse);
+            } catch (Exception e2) {
+                LOG.error("Cannot update event_id = " + eventId);
+                e2.printStackTrace();
+            }
+            LOG.info("Person_Controller -> addPerson -> is called -> ended");
+        }
+
+        return "personAdd";
+    }
+
+    /**
+     * get list persons
+     *
+     * @return list persons
+     */
+    public List<Person> getPersonsList() {
+        LOG.info("Person_Controller -> getPersonsList -> is called");
+        List<Person> persons = null;
+        Short statusCode = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
+        Short resultCode = (short) Constant.RESULT_EVENT.WAITING.ordinal();
+        Long eventId = null;
+        try {
+            Date requestDate = new Date();
+            String eventCode = "get_person_list_logic";
+            EventRequest eventRequest = new EventRequest(requestDate, requestDate, eventCode, null,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), "getPersonList()", null);
+            eventId = Event_ServiceImpl.insertEvent(eventRequest);
+
+            persons = this.service.getPersonsList();
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
+        } catch (SQLException e) {
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.ERROR.ordinal();
+            LOG.error("Person_Controller -> getPersonsList -> SQLException");
+            e.printStackTrace();
+        } finally {
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            Date reponseDate = new Date();
+            EventResponse eventResponse = new EventResponse(eventId, reponseDate, reponseDate, statusCode, resultCode,
+                    null, (short) 1, null, null, Person_Controller.class.getName(), null);
+            try {
+                Event_ServiceImpl.updateEvent(eventResponse);
+            } catch (Exception e2) {
+                LOG.error("Cannot update event_id = " + eventId);
+                e2.printStackTrace();
+            }
+            LOG.info("Person_Controller -> getPersonsList -> is called -> ended");
+        }
+
+        return persons;
+    }
+
+    /**
+     * insert list persons
+     *
+     * @return true in case of successfull otherwise false
+     */
+    public boolean insertPersons(List<Person> persons) {
+        LOG.info("Person_Controller -> insertPersons -> is called");
+        boolean result = false;
+        Short statusCode = (short) Constant.STATUS_EVENT.RUNNING.ordinal();
+        Short resultCode = (short) Constant.RESULT_EVENT.WAITING.ordinal();
+        Long eventId = null;
+        try {
+            Date requestDate = new Date();
+            String eventCode = "insert_person_logic";
+            EventRequest eventRequest = new EventRequest(requestDate, requestDate, eventCode, null,
+                    statusCode, resultCode, null, (short) 1, null, null,
+                    Person_Controller.class.getName(), "insertPerson(List<Person>)", null);
+
+            result = this.service.insertPersons(persons);
+            eventId = Event_ServiceImpl.insertEvent(eventRequest);
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.SUCCESS_FULL.ordinal();
+        } catch (SQLException e) {
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            resultCode = (short) Constant.RESULT_EVENT.ERROR.ordinal();
+            LOG.error("Person_Controller -> insertPersons ->  SQLException");
+            e.printStackTrace();
+        } finally {
+            statusCode = (short) Constant.STATUS_EVENT.STOP.ordinal();
+            Date reponseDate = new Date();
+            EventResponse eventResponse = new EventResponse(eventId, reponseDate, reponseDate, statusCode, resultCode,
+                    null, (short) 1, null, null, Person_Controller.class.getName(), null);
+            try {
+                Event_ServiceImpl.updateEvent(eventResponse);
+            } catch (Exception e2) {
+                LOG.error("Cannot update event_id = " + eventId);
+                e2.printStackTrace();
+            }
+            LOG.info("Person_Controller -> insertPersons -> is called -> ended");
+        }
+
+        return result;
+    }
 }
